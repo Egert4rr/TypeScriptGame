@@ -32,4 +32,5 @@ npm run lint
 - Jest / ESLint
 
 ## Links
-[Complete tutorial](ADD LINK)
+All credit for the project goes to Greg Solo:
+https://itnext.io/entity-component-system-in-action-with-typescript-f498ca82a08e
