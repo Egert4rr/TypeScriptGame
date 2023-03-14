@@ -1,10 +1,22 @@
 import { IComponent } from "./component.h"
-
+import { IAwake, IUpdate } from '@/utils'
 
 type constr<T> = { new(...args: unknown[]): T }
 
-export abstract class Entity {
+export abstract class Entity implements IAwake, IUpdate {
     protected _components: IComponent[] = []
+
+    public Awake(): void {
+        for(const component of this._components){
+          component.Awake()
+        }
+    }
+
+    public Update(deltaTime: number): void { 
+        for(const component of this._components){
+            component.Update(deltaTime)
+        }
+    }
     
     public get Components(): IComponent[] {
         return this._components
@@ -50,7 +62,7 @@ export abstract class Entity {
         }
     
         return false
-      }
+    }
 }
 
 
