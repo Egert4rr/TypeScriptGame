@@ -1,3 +1,7 @@
+/*
+* @jest-environment jsdom
+*/
+
 import { Game } from '@/game'
 import { Entity, IComponent } from '@/utils'
 
