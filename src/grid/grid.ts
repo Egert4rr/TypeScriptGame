@@ -1,6 +1,7 @@
 import { Entity, Vector2D } from "@/utils";
 import { Node } from "@/node";
 import { Settings } from "@/settings";
+import { GridOnclickComponent } from "./components";
 
 export class Grid extends Entity {
 
@@ -11,10 +12,11 @@ export class Grid extends Entity {
   }
 
   public Awake(): void {
+    this.AddComponent(new GridOnclickComponent())
     super.Awake()
 
     this.InitNodes()
-    
+
     for (const node of this._nodes) {
       node.Awake()
     }
@@ -22,7 +24,7 @@ export class Grid extends Entity {
 
   public Update(deltaTime: number): void {
     super.Update(deltaTime)
-    
+
     for (const node of this._nodes) {
       node.Update(deltaTime)
     }
@@ -45,7 +47,7 @@ export class Grid extends Entity {
 
         const index = new Vector2D(x, y)
 
-	      const node = new Node(start, end, index)
+        const node = new Node(start, end, index)
         this._nodes.push(node)
       }
     }

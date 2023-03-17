@@ -5,6 +5,7 @@
 import { NodeDrawComponent } from './draw'
 import { CanvasLayer } from '@/canvas-layer'
 import { mockNodeFactory } from '@/node'
+import { Settings } from '@/settings'
 
 describe('>>> Node draw component', () => {
     let comp: NodeDrawComponent
@@ -34,4 +35,18 @@ describe('>>> Node draw component', () => {
         expect(spyClearRect).toBeCalled()
         expect(spyFillRect).toBeCalled()
     })
+
+    it('should render active color if entity is active and regular color otherwise', () => {
+        const spyFillRect = jest.spyOn(CanvasLayer.Background, 'FillRect')
+
+        comp.Entity.IsActive = true
+        comp.Update(0)
+        expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.active)
+
+        comp.Entity.IsActive = false
+        comp.Update(0)
+        expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.regular)
+    })
+
+    
 })

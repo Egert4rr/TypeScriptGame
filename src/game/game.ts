@@ -1,7 +1,7 @@
 import { Entity } from '@/utils'
 import { Grid } from '@/grid'
 import { Fleet } from '@/fleet'
-import { Team } from '@/team'
+import { GameInputComponent } from './components'
 
 export class Game extends Entity {
     private _lastTimestamp = 0
@@ -12,14 +12,15 @@ export class Game extends Entity {
         return this._entities
     }
 
-    public Awake(): void {
-        super.Awake()
+    constructor(grid: Grid, fleetA: Fleet, fleetB: Fleet) {
+        super()
 
-        this._entities.push(
-            new Grid(),
-            new Fleet(Team.A),
-            new Fleet(Team.B),
-        )
+        this._entities.push(grid, fleetA, fleetB)
+    }
+
+    public Awake(): void {
+        this.AddComponent(new GameInputComponent())
+        super.Awake()
 
         for (const entity of this.Entities) {
             entity.Awake()
