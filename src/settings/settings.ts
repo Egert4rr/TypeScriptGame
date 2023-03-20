@@ -8,9 +8,9 @@ export const Settings = Object.freeze({
     nodeOffset: 10,
     color: {
       regular: new Color(245, 245, 245, 1),
-      active: new Color(176, 190, 197, 1)
+      inLocomotionRange: new Color(176, 190, 197, 1)
     },
-    
+
   },
   ships: {
     fleetSize: 1,
@@ -18,8 +18,13 @@ export const Settings = Object.freeze({
     colors: {
       a: new Color(187, 222, 251, 1),
       b: new Color(255, 236, 179, 1)
-    }
+    },
+    locomotion: {
+      range: 3,
+      duration: 300
+    },
   },
+
   debugMode: true
 })
 
