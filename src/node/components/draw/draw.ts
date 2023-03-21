@@ -20,8 +20,20 @@ export class NodeDrawComponent implements IComponent {
     CanvasLayer.Background.FillRect(
       this.Entity.Start,
       this.Entity.Size,
-      this.Entity.IsInLocomotionRange ? Settings.grid.color.inLocomotionRange : Settings.grid.color.regular
+      this.GetColor()
     )
+  }
+
+  private GetColor(): Color {
+    if(this.Entity.IsOnPath){
+      return Settings.grid.color.onPath
+    }
+
+    if(this.Entity.IsInLocomotionRange){
+      return Settings.grid.color.inLocomotionRange
+    }
+
+    return Settings.grid.color.regular
   }
 
   private Clear(): void {
@@ -32,19 +44,25 @@ export class NodeDrawComponent implements IComponent {
     if (!Settings.debugMode) {
       return
     }
+
     const entity = this.Entity
     CanvasLayer.Background.DrawText(
       entity.Index.AsString(),
       entity.Start,
       new Color(255, 0, 0, 1)
     )
+
     if (this.Entity.Ship) {
       CanvasLayer.Background.DrawText(
         'Ship',
         new Vector2D(entity.Start.x + 40, entity.Start.y),
         new Color(255, 0, 0, 1)
       )
+    } else {
+      CanvasLayer.Background.ClearRect(
+        new Vector2D(entity.Start.x + 40, entity.Start.y - 10),
+        new Vector2D(30, 10)
+      )
     }
   }
-
 }

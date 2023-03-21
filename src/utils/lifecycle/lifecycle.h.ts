@@ -1,7 +1,7 @@
 export interface IAwake {
-    Awake(): void
+  Awake(): void
 }
-  
+
 export interface IUpdate {
-    Update(deltaTime: number): void
+  Update(deltaTime: number): void
 }

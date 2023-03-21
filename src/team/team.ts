@@ -1,4 +1,4 @@
 export enum Team {
-    A,
-    B
+  A,
+  B
 }

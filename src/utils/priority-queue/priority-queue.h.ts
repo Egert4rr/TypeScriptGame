@@ -1,11 +1,11 @@
 export interface IPriorityQueue<T> {
-    IsEmpty: boolean
+  IsEmpty: boolean
 
-    Enqueue(item: T, priority: number): void
-    Dequeue(): T
+  Enqueue(item: T, priority: number): void
+  Dequeue(): T
 }
 
 export interface IPriorityQueueItem<T> {
-    priority: number
-    value: T
+  priority: number
+  value: T
 }

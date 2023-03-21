@@ -12,14 +12,12 @@ describe('>>> Game', () => {
 
   beforeEach(() => {
     game = mockGameFactory()
-
     window.requestAnimationFrame = jest.fn().mockImplementationOnce((cb) => cb())
   })
 
   it('should start update loop next frame after awake', () => {
     const spy = jest.spyOn(game, 'Update')
     game.Awake()
-
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
@@ -57,4 +55,3 @@ describe('>>> Game', () => {
     expect(spyFleetUpdate).toBeCalled()
   })
 })
-

@@ -2,36 +2,35 @@
 * @jest-environment jsdom
 */
 
-import { ShipDrawComponent, mockShipFactory } from '@/ship'
 import { CanvasLayer } from '@/canvas-layer'
+import { ShipDrawComponent, mockShipFactory } from '@/ship'
 
 describe('>>> Node Ship Component', () => {
+  let comp: ShipDrawComponent
+  beforeEach(() => {
+    comp = new ShipDrawComponent()
+    comp.Entity = mockShipFactory()
+  })
 
-    let comp: ShipDrawComponent
+  it('should cleanup when awakens', () => {
+    const spy = jest.spyOn(CanvasLayer.Foreground, 'ClearRect')
+    expect(spy).not.toBeCalled()
 
-    beforeEach(() => {
-        comp = new ShipDrawComponent()
-        comp.Entity = mockShipFactory()
-    })
+    comp.Awake()
 
-    it('should cleanup when awakens', () => {
-        const spy = jest.spyOn(CanvasLayer.Foreground, 'ClearRect')
-        expect(spy).not.toBeCalled()
+    expect(spy).toBeCalled()
+  })
 
-        comp.Awake()
+  it('should cleanup and draw rect every frame', () => {
+    const spyClearRect = jest.spyOn(CanvasLayer.Foreground, 'ClearRect')
+    const spyFillRect = jest.spyOn(CanvasLayer.Foreground, 'FillCircle')
 
-        expect(spy).toBeCalled()
-    })
-    it('should cleanup and draw rect every frame', () => {
-        const spyClearRect = jest.spyOn(CanvasLayer.Foreground, 'ClearRect')
-        const spyFillRect = jest.spyOn(CanvasLayer.Foreground, 'FillCircle')
+    expect(spyClearRect).not.toBeCalled()
+    expect(spyFillRect).not.toBeCalled()
 
-        expect(spyClearRect).not.toBeCalled()
-        expect(spyFillRect).not.toBeCalled()
+    comp.Update(0)
 
-        comp.Update(0)
-
-        expect(spyClearRect).toBeCalled()
-        expect(spyFillRect).toBeCalled()
-    })
+    expect(spyClearRect).toBeCalled()
+    expect(spyFillRect).toBeCalled()
+  })
 })

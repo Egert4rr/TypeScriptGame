@@ -7,46 +7,49 @@ import { CanvasLayer } from '@/canvas-layer'
 import { mockNodeFactory } from '@/node'
 import { Settings } from '@/settings'
 
-describe('>>> Node draw component', () => {
-    let comp: NodeDrawComponent
-    beforeEach(() => {
-        comp = new NodeDrawComponent()
-        comp.Entity = mockNodeFactory()
-    })
+describe('>>> Node Draw Component', () => {
+  let comp: NodeDrawComponent
+  beforeEach(() => {
+    comp = new NodeDrawComponent()
+    comp.Entity = mockNodeFactory()
+  })
 
-    it('should cleanup when awakens', () => {
-        const spy = jest.spyOn(CanvasLayer.Background, 'ClearRect')
-        expect(spy).not.toBeCalled()
+  it('should cleanup when awakens', () => {
+    const spy = jest.spyOn(CanvasLayer.Background, 'ClearRect')
+    expect(spy).not.toBeCalled()
 
-        comp.Awake()
+    comp.Awake()
 
-        expect(spy).toBeCalled()
-    })
+    expect(spy).toBeCalled()
+  })
 
-    it('should cleanup and draw rect every frame', () => {
-        const spyClearRect = jest.spyOn(CanvasLayer.Background, 'ClearRect')
-        const spyFillRect = jest.spyOn(CanvasLayer.Background, 'FillRect')
+  it('should cleanup and draw rect every frame', () => {
+    const spyClearRect = jest.spyOn(CanvasLayer.Background, 'ClearRect')
+    const spyFillRect = jest.spyOn(CanvasLayer.Background, 'FillRect')
 
-        expect(spyClearRect).not.toBeCalled()
-        expect(spyFillRect).not.toBeCalled()
+    expect(spyClearRect).not.toBeCalled()
+    expect(spyFillRect).not.toBeCalled()
 
-        comp.Update(0)
+    comp.Update(0)
 
-        expect(spyClearRect).toBeCalled()
-        expect(spyFillRect).toBeCalled()
-    })
+    expect(spyClearRect).toBeCalled()
+    expect(spyFillRect).toBeCalled()
+  })
 
-    it('should render range color if entity is in range and regular color otherwise', () => {
-        const spyFillRect = jest.spyOn(CanvasLayer.Background, 'FillRect')
+  it('should render range color if entity is in range, path color if is on path, and regular color otherwise', () => {
+    const spyFillRect = jest.spyOn(CanvasLayer.Background, 'FillRect')
 
-        comp.Entity.IsInLocomotionRange = true
-        comp.Update(0)
-        expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.inLocomotionRange)
+    comp.Entity.IsOnPath = true
+    comp.Update(0)
+    expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.onPath)
 
-        comp.Entity.IsInLocomotionRange = false
-        comp.Update(0)
-        expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.regular)
-    })
+    comp.Entity.IsOnPath = false
+    comp.Entity.IsInLocomotionRange = true
+    comp.Update(0)
+    expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.inLocomotionRange)
 
-    
+    comp.Entity.IsInLocomotionRange = false
+    comp.Update(0)
+    expect(spyFillRect).toBeCalledWith(comp.Entity.Start, comp.Entity.Size, Settings.grid.color.regular)
+  })
 })

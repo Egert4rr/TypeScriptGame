@@ -1,4 +1,3 @@
-import { Ship } from '@/ship'
 import { Color } from '@/utils'
 
 export const Settings = Object.freeze({
@@ -8,9 +7,9 @@ export const Settings = Object.freeze({
     nodeOffset: 10,
     color: {
       regular: new Color(245, 245, 245, 1),
-      inLocomotionRange: new Color(176, 190, 197, 1)
-    },
-
+      inLocomotionRange: new Color(176, 190, 197, 1),
+      onPath: new Color(51, 255, 153, 1)
+    }
   },
   ships: {
     fleetSize: 1,
@@ -24,8 +23,5 @@ export const Settings = Object.freeze({
       duration: 300
     },
   },
-
   debugMode: true
 })
-
-

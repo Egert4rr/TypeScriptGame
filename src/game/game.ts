@@ -4,46 +4,46 @@ import { Fleet } from '@/fleet'
 import { GameInputComponent } from './components'
 
 export class Game extends Entity {
-    private _lastTimestamp = 0
+  private _lastTimestamp = 0
 
-    private _entities: Entity[] = []
+  private _entities: Entity[] = []
 
-    public get Entities(): Entity[] {
-        return this._entities
+  public get Entities(): Entity[] {
+    return this._entities
+  }
+
+  constructor(grid: Grid, fleetA: Fleet, fleetB: Fleet) {
+    super()
+
+    this._entities.push(grid, fleetA, fleetB)
+  }
+
+  public Awake(): void {
+    this.AddComponent(new GameInputComponent())
+    super.Awake()
+
+    for (const entity of this.Entities) {
+      entity.Awake()
     }
 
-    constructor(grid: Grid, fleetA: Fleet, fleetB: Fleet) {
-        super()
+    window.requestAnimationFrame(() => {
+      this._lastTimestamp = Date.now()
 
-        this._entities.push(grid, fleetA, fleetB)
+      this.Update()
+    })
+  }
+
+  public Update(): void {
+    const deltaTime = (Date.now() - this._lastTimestamp) / 1000
+
+    super.Update(deltaTime)
+
+    for (const entity of this.Entities) {
+      entity.Update(deltaTime)
     }
 
-    public Awake(): void {
-        this.AddComponent(new GameInputComponent())
-        super.Awake()
+    this._lastTimestamp = Date.now()
 
-        for (const entity of this.Entities) {
-            entity.Awake()
-        }
-
-        window.requestAnimationFrame(() => {
-            this._lastTimestamp = Date.now()
-
-            this.Update()
-        })
-    }
-
-    public Update(): void {
-        const deltaTime = (Date.now() - this._lastTimestamp) / 1000
-
-        super.Update(deltaTime)
-
-        for (const entity of this.Entities) {
-            entity.Update(deltaTime)
-        }
-
-        this._lastTimestamp = Date.now()
-
-        window.requestAnimationFrame(() => this.Update())
-    }
+    window.requestAnimationFrame(() => this.Update())
+  }
 }
